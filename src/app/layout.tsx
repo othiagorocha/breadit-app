@@ -1,14 +1,15 @@
-import { Navbar } from "@/components/Navbar";
-import { cn } from "@/lib/utils";
-import "@/styles/globals.css";
-import { Inter } from "next/font/google";
+import { Navbar } from '@/components/Navbar';
+import { Toaster } from '@/components/ui/toaster';
+import { cn } from '@/lib/utils';
+import '@/styles/globals.css';
+import { Inter } from 'next/font/google';
 
 export const metadata = {
-  title: "Breadit",
-  description: "A Reddit clone built with Next.js and TypeScript.",
+  title: 'Breadit',
+  description: 'A Reddit clone built with Next.js and TypeScript.',
 };
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
@@ -17,15 +18,16 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
+      lang='en'
       className={cn(
-        "bg-white antialiased text-slate-900 light",
+        'bg-white antialiased text-slate-900 light',
         inter.className
       )}
     >
-      <body className="min-h-screen pt-12 bg-slate-50 antialiased">
+      <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
+        <Toaster />
         <Navbar />
-        <div className="container max-w-7xl mx-auto h-full pt-12 ">
+        <div className='container max-w-7xl mx-auto h-full pt-12 '>
           {children}
         </div>
       </body>
