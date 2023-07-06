@@ -2,10 +2,24 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 const Page: FC = () => {
   const [input, setInput] = useState<string>('');
+  const router = useRouter();
+
+  const {} = useMutation({
+    mutationFn: async () => {
+      const payload = {
+        age: 25,
+      };
+
+      const {} = await axios.post('/api/subreddit', payload);
+    },
+  });
 
   return (
     <div className='container flex items-center h-full max-w-3xl mx-auto'>
@@ -35,7 +49,12 @@ const Page: FC = () => {
         </div>
 
         <div className='flex justify-end gap-4'>
-          <Button></Button>
+          <Button
+            variant='subtle'
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     </div>
