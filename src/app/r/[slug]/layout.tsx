@@ -25,7 +25,7 @@ const Layout = async ({
     },
   });
 
-  const subscription = session?.user
+  const subscription = !session?.user
     ? undefined
     : await db.subscription.findFirst({
         where: {
@@ -33,14 +33,14 @@ const Layout = async ({
             name: slug,
           },
           user: {
-            id: session?.user.id,
+            id: session.user.id,
           },
         },
       });
 
-  const isSubscribed = !!subreddit;
+  const isSubscribed = !!subscription;
 
-  if (!isSubscribed) return notFound();
+  if (!subreddit) return notFound();
 
   const memberCount = await db.subscription.count({
     where: {
@@ -89,6 +89,7 @@ const Layout = async ({
 
               {subreddit.creatorId !== session?.user.id ? (
                 <SubscribeLeaveToggle
+                  isSubscribed={isSubscribed}
                   subredditId={subreddit.id}
                   subredditName={subreddit.name}
                 />
