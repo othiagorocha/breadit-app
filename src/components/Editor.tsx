@@ -1,13 +1,43 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useCallback, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useForm } from "react-hook-form";
+import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type EditorJS from "@editorjs/editorjs";
 
-interface EditorProps {}
+interface EditorProps {
+  subredditId: string;
+}
 
-export const Editor: FC<EditorProps> = ({}) => {
-  const {} = useForm();
+export const Editor: FC<EditorProps> = ({ subredditId }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PostCreationRequest>({
+    resolver: zodResolver(PostValidator),
+    defaultValues: {
+      subredditId,
+      title: "",
+      content: null,
+    },
+  });
+
+  const ref = useRef<EditorJS>();
+
+  const initializeEditor = useCallback(async () => {
+    const EditorJS = (await import("@editorjs/editorjs")).default;
+    const Header = (await import("@editorjs/header")).default;
+    const Embed = (await import("@editorjs/embed")).default;
+    const Table = (await import("@editorjs/table")).default;
+    const List = (await import("@editorjs/list")).default;
+    const Code = (await import("@editorjs/code")).default;
+    const LinkTool = (await import("@editorjs/link")).default;
+    const InlineCode = (await import("@editorjs/inline-code")).default;
+    const ImageTool = (await import("@editorjs/image")).default;
+  }, []);
 
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
